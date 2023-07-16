@@ -1,0 +1,33 @@
+package io.fam;
+
+import org.springframework.context.*;
+import org.springframework.context.annotation.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.*;
+
+// @SpringBootApplication
+@Configuration
+@EnableAutoConfiguration
+@ComponentScan
+public class IocAndDiApplication {
+	
+	public static void main(String[] args) {
+		ApplicationContext context = new AnnotationConfigApplicationContext(Config.class);
+		Car car = context.getBean(Car.class);
+		System.out.println(car.toString());
+
+		Integer numberSeven = (Integer) context.getBean("num7");
+		System.out.println(numberSeven);
+
+		FooService service = (FooService) context.getBean(FooService.class);
+		System.out.println(service.fooFormatter.format());
+
+		FooOther fooOther = (FooOther) context.getBean("foot");
+		System.out.println(fooOther.getFormatter());
+
+		FooFormatter formatterNew = new FooFormatter();
+		fooOther.setFormatter(formatterNew);
+		System.out.println(fooOther.getFormatter());
+	}
+
+}
